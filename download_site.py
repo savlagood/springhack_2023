@@ -26,7 +26,7 @@ def collect_links_from_html(html, domain):
             _, link_domain, link_path = parse_url(link)
             if link_domain != '' and link_domain != domain:
                 continue
-            if link_path.endswith(forbidden_extensions):
+            if link_path.lower().endswith(forbidden_extensions):
                 continue
             if '?' in link_path:
                 link_path = link_path[:link_path.find('?')]
@@ -99,7 +99,7 @@ async def parse(protocol, root_domain, root_path):
             while len(queue) > 0:
                 tasks = []
                 for path in queue[:bs]:
-                    if path.endswith(forbidden_extensions):
+                    if path.lower().endswith(forbidden_extensions):
                         continue
                     tasks.append(asyncio.create_task(get_links(session, protocol + root_domain + path)))
 
